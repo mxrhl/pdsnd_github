@@ -8,6 +8,7 @@ Udacity GitHub Submission - Bikeshare Project
 
 ### Description
 The project includes the python project 'bikeshare'. It's the final GitHub project of the course.
+The python script starts with an interaction between the user and the script.
 
 ### Files used
 bikeshare_2.py
