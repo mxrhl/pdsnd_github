@@ -10,6 +10,7 @@ CITY_DATA = { 'chicago': 'chicago.csv',
 # dictionary of name of days per week and there day number starting by 0
 DAYS_OF_WEEK = {'monday': 0,'tuesday':1,'wednesday':2,'thursday':3,'friday':4,'saturday':5,'sunday':6}
 
+#dictionary of names and numbers of the months
 MONTHS = {'january': 1,'february': 2,'march': 3,'april': 4,'may': 5,'june': 6}
 
 def get_filters():
