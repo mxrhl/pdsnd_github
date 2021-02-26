@@ -2,12 +2,15 @@ import time
 import pandas as pd
 import numpy as np
 
+# dictionary of the cities and there .csv-files
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+# dictionary of name of days per week and there day number starting by 0
 DAYS_OF_WEEK = {'monday': 0,'tuesday':1,'wednesday':2,'thursday':3,'friday':4,'saturday':5,'sunday':6}
 
+# dictionary of the month january - june and there number starting by 1
 MONTHS = {'january': 1,'february': 2,'march': 3,'april': 4,'may': 5,'june': 6}
 
 def get_filters():
@@ -92,6 +95,7 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
+    # set 
     df = pd.read_csv(CITY_DATA[city])
 
     # convert the Start Time column to datetime
@@ -118,7 +122,16 @@ def load_data(city, month, day):
 
 
 def time_stats(df):
-    """Displays statistics on the most frequent times of travel."""
+    """
+    Asks user to specify a city, month, and day to analyze.
+
+    Args:
+        (DataFrame) df - data of the <cityname>.csv file
+    Prints:
+        - the most common month of the bike rentals
+        - the most common day of week of the bike rentals
+        - the most common start hour of the bike rentals 
+    """
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
@@ -144,7 +157,18 @@ def time_stats(df):
     print('-'*40)
 
 def int_to_time(time_seconds):
+    """
+    Calculates the days, hours, minutes and seconds according to the argument time_seconds.
+    First the days will be calculated. Then of the rest the hours are calulated, then the minutes and the rest are the seconds.
 
+    Args:
+        (DataFrame) df - data of the <cityname>.csv file
+    Returns:
+        (int) days - number of full days of the time in seconds
+        (int) hours - number of full hours of the time in seconds
+        (int) minutes - number of full minutes of the time in seconds
+        (int) seconds - number of seconds
+    """
     days = time_seconds // (24 * 3600)
     time_seconds = time_seconds % (24 * 3600)
     hours = time_seconds // 3600
@@ -157,7 +181,16 @@ def int_to_time(time_seconds):
 
 
 def station_stats(df):
-    """Displays statistics on the most popular stations and trip."""
+    """Displays statistics on the most popular stations and trip.
+    
+    Args:
+        (DataFrame) df - DataFrame of the <cityname>.csv file
+
+    Prints:
+        - name of the most commonly used start station and how often it was used
+        - name of the most commonly used end station and how often it was used
+        - station names of the most commonly used station combination and how often it appeared
+    """
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
@@ -187,7 +220,15 @@ def station_stats(df):
 
 
 def trip_duration_stats(df):
-    """Displays statistics on the total and average trip duration."""
+    """Displays statistics on the total and average trip duration.
+        
+    Args:
+        (DataFrame) df - DataFrame of the <cityname>.csv file
+
+    Prints:
+        - total travel time in days, hours, minutes and seconds
+        - mean travel time in days, hours, minutes and seconds
+    """
 
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
@@ -207,7 +248,15 @@ def trip_duration_stats(df):
 
 
 def user_stats(df, city):
-    """Displays statistics on bikeshare users."""
+    """Displays statistics on bikeshare users.
+            
+    Args:
+        (DataFrame) df - DataFrame of the <cityname>.csv file
+
+    Prints:
+        - name and appearence count of the different user types
+        - name and appearence count of the different genders
+    """
 
     print('\nCalculating User Stats...\n')
     start_time = time.time()
@@ -238,6 +287,14 @@ def user_stats(df, city):
 
 
 def show_dataframes(df):
+    """Displays the filtered data of the dataframe
+
+    Args:
+        (DataFrame) df - DataFrame of the <cityname>.csv file
+
+    Prints:
+        - 5 rows of the dataframe per decision
+    """
 
     view_data = input('\nDo you wanna see the first 5 rows of the filtered data? Enter yes or no.\n')
     start_loc = 0
@@ -247,6 +304,7 @@ def show_dataframes(df):
         view_data = input('\nDo you wanna see the next 5 rows of the filtered data? Enter yes or no.\n')
 
 def main():
+    """main methode"""
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
