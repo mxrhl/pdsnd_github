@@ -2,15 +2,12 @@ import time
 import pandas as pd
 import numpy as np
 
-# dictionary of the cities and there .csv-files
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
-# dictionary of name of days per week and there day number starting by 0
 DAYS_OF_WEEK = {'monday': 0,'tuesday':1,'wednesday':2,'thursday':3,'friday':4,'saturday':5,'sunday':6}
 
-#dictionary of names and numbers of the months
 MONTHS = {'january': 1,'february': 2,'march': 3,'april': 4,'may': 5,'june': 6}
 
 def get_filters():
@@ -95,7 +92,6 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
-    # set 
     df = pd.read_csv(CITY_DATA[city])
 
     # convert the Start Time column to datetime
@@ -122,16 +118,7 @@ def load_data(city, month, day):
 
 
 def time_stats(df):
-    """
-    Asks user to specify a city, month, and day to analyze.
-
-    Args:
-        (DataFrame) df - data of the <cityname>.csv file
-    Prints:
-        - the most common month of the bike rentals
-        - the most common day of week of the bike rentals
-        - the most common start hour of the bike rentals 
-    """
+    """Displays statistics on the most frequent times of travel."""
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
@@ -149,26 +136,15 @@ def time_stats(df):
             print('The most common day:\n    Day: {}\n'.format(day.title()))   
 
     # TO DO: display the most common start hour
-    #df_hours = df['Start Time'].dt.hour
-    common_hour = df['Start Time'].dt.hour.mean()
+    df_hours = df['Start Time'].dt.hour
+    common_hour = df_hours.mean()
     print('The most common start hour is {}h.'.format(int(common_hour)))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 def int_to_time(time_seconds):
-    """
-    Calculates the days, hours, minutes and seconds according to the argument time_seconds.
-    First the days will be calculated. Then of the rest the hours are calulated, then the minutes and the rest are the seconds.
 
-    Args:
-        (DataFrame) df - data of the <cityname>.csv file
-    Returns:
-        (int) days - number of full days of the time in seconds
-        (int) hours - number of full hours of the time in seconds
-        (int) minutes - number of full minutes of the time in seconds
-        (int) seconds - number of seconds
-    """
     days = time_seconds // (24 * 3600)
     time_seconds = time_seconds % (24 * 3600)
     hours = time_seconds // 3600
@@ -181,56 +157,37 @@ def int_to_time(time_seconds):
 
 
 def station_stats(df):
-    """Displays statistics on the most popular stations and trip.
-    
-    Args:
-        (DataFrame) df - DataFrame of the <cityname>.csv file
-
-    Prints:
-        - name of the most commonly used start station and how often it was used
-        - name of the most commonly used end station and how often it was used
-        - station names of the most commonly used station combination and how often it appeared
-    """
+    """Displays statistics on the most popular stations and trip."""
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
-    # TO DO: display most frequent combination of start station and end station trip
-    df['station_combination'] = df['Start Station'] + '|' + df['End Station']
-    trip_combination = df.groupby(['station_combination'])['station_combination'].count()
-    max_trip_combination_name = trip_combination.idxmax
-    print(max_trip_combination_name)
-    max_trip_combination_value = trip_combination[max_trip_combination_name]
-    list_stationcombination = max_trip_combination_name.split('|')
-    print('The most frequent combination of start and end station is:\n    Start Station: {},\n    End Station:   {},\n    Count:         {}\n'.format(list_stationcombination[0], list_stationcombination[1], max_trip_combination_value))
-
     # TO DO: display most commonly used start station
     start_station = df.groupby(['Start Station'])['Start Station'].count()
-    max_start_station_name = start_station.idmax
-    max_start_station_value = start_station[max_start_station_name]
-    print('The most commonly used start station is: \n    Name:  {},\n    Count: {}\n'.format(max_start_station_name, max_start_station_value))
+    max_start_station_name = start_station.idxmax()
+    max_start_station_val = start_station[max_start_station_name]
+    print('The most commonly used start station is: \n    Name:  {},\n    Count: {}\n'.format(max_start_station_name, max_start_station_val))
 
     # TO DO: display most commonly used end station
     end_station = df.groupby(['End Station'])['End Station'].count()
-    max_end_station_name = end_station.idxmax
-    max_end_station_value = end_station[max_end_station_name]
-    print('The most commonly used end station is: \n    Name:  {},\n    Count: {}\n'.format(max_end_station_name, max_end_station_value))
+    max_end_station_name = end_station.idxmax()
+    max_end_station_val = end_station[max_end_station_name]
+    print('The most commonly used end station is: \n    Name:  {},\n    Count: {}\n'.format(max_end_station_name, max_end_station_val))
 
+    # TO DO: display most frequent combination of start station and end station trip
+    df['station_combination'] = df['Start Station'] + '|' + df['End Station']
+    trip_combination = df.groupby(['station_combination'])['station_combination'].count()
+    max_trip_comb_name = trip_combination.idxmax()
+    max_trip_comb_val = trip_combination[max_trip_comb_name]
+    list_stationcomb = max_trip_comb_name.split('|')
+    print('The most frequent combination of start and end station is:\n    Start Station: {},\n    End Station:   {},\n    Count:         {}\n'.format(list_stationcomb[0], list_stationcomb[1], max_trip_comb_val))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 
 def trip_duration_stats(df):
-    """Displays statistics on the total and average trip duration.
-        
-    Args:
-        (DataFrame) df - DataFrame of the <cityname>.csv file
-
-    Prints:
-        - total travel time in days, hours, minutes and seconds
-        - mean travel time in days, hours, minutes and seconds
-    """
+    """Displays statistics on the total and average trip duration."""
 
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
@@ -250,15 +207,7 @@ def trip_duration_stats(df):
 
 
 def user_stats(df, city):
-    """Displays statistics on bikeshare users.
-            
-    Args:
-        (DataFrame) df - DataFrame of the <cityname>.csv file
-
-    Prints:
-        - name and appearence count of the different user types
-        - name and appearence count of the different genders
-    """
+    """Displays statistics on bikeshare users."""
 
     print('\nCalculating User Stats...\n')
     start_time = time.time()
@@ -289,14 +238,7 @@ def user_stats(df, city):
 
 
 def show_dataframes(df):
-    """Displays the filtered data of the dataframe
 
-    Args:
-        (DataFrame) df - DataFrame of the <cityname>.csv file
-
-    Prints:
-        - 5 rows of the dataframe per decision
-    """
     view_data = input('\nDo you wanna see the first 5 rows of the filtered data? Enter yes or no.\n')
     start_loc = 0
     while view_data.lower() != 'no':
@@ -305,7 +247,6 @@ def show_dataframes(df):
         view_data = input('\nDo you wanna see the next 5 rows of the filtered data? Enter yes or no.\n')
 
 def main():
-    """main methode"""
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
@@ -323,4 +264,4 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+    main()
