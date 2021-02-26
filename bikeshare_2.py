@@ -198,22 +198,22 @@ def station_stats(df):
     # TO DO: display most commonly used start station
     start_station = df.groupby(['Start Station'])['Start Station'].count()
     max_start_station_name = start_station.idxmax()
-    max_start_station_val = start_station[max_start_station_name]
-    print('The most commonly used start station is: \n    Name:  {},\n    Count: {}\n'.format(max_start_station_name, max_start_station_val))
+    max_start_station_value = start_station[max_start_station_name]
+    print('The most commonly used start station is: \n    Name:  {},\n    Count: {}\n'.format(max_start_station_name, max_start_station_value))
 
     # TO DO: display most commonly used end station
     end_station = df.groupby(['End Station'])['End Station'].count()
     max_end_station_name = end_station.idxmax()
-    max_end_station_val = end_station[max_end_station_name]
-    print('The most commonly used end station is: \n    Name:  {},\n    Count: {}\n'.format(max_end_station_name, max_end_station_val))
+    max_end_station_value = end_station[max_end_station_name]
+    print('The most commonly used end station is: \n    Name:  {},\n    Count: {}\n'.format(max_end_station_name, max_end_station_value))
 
     # TO DO: display most frequent combination of start station and end station trip
     df['station_combination'] = df['Start Station'] + '|' + df['End Station']
     trip_combination = df.groupby(['station_combination'])['station_combination'].count()
-    max_trip_comb_name = trip_combination.idxmax()
-    max_trip_comb_val = trip_combination[max_trip_comb_name]
-    list_stationcomb = max_trip_comb_name.split('|')
-    print('The most frequent combination of start and end station is:\n    Start Station: {},\n    End Station:   {},\n    Count:         {}\n'.format(list_stationcomb[0], list_stationcomb[1], max_trip_comb_val))
+    max_trip_combination_name = trip_combination.idxmax()
+    max_trip_combination_value = trip_combination[max_trip_comb_name]
+    list_stationcombination = max_trip_combination_name.split('|')
+    print('The most frequent combination of start and end station is:\n    Start Station: {},\n    End Station:   {},\n    Count:         {}\n'.format(list_stationcombination[0], list_stationcombination[1], max_trip_combination_val))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -295,7 +295,6 @@ def show_dataframes(df):
     Prints:
         - 5 rows of the dataframe per decision
     """
-
     view_data = input('\nDo you wanna see the first 5 rows of the filtered data? Enter yes or no.\n')
     start_loc = 0
     while view_data.lower() != 'no':
